@@ -16,3 +16,5 @@ Material do Meetup - Pátio Digital
 - [aqui](https://github.com/leobarone/FLS6397)
 - [aqui](http://r4ds.had.co.nz/)
 - [aqui](https://www.datacamp.com/courses/free-introduction-to-r)
+- [aqui](http://cebrap.org.br/)
+
