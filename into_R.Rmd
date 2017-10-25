@@ -1,0 +1,178 @@
+---
+title: "Básico da Linguagem e Data Frames"
+author: "Leonardo Sangali Barone"
+date: "25 de Outubro de 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A linguagem R e a centralidade Data frames
+
+Uma característica distintiva da linguagem de programação R é ter sido desenvolvida para a análise de dados. E quando pensamos em análise de dados, a protagonista do show é a _base de dados_ ou, como vamos conhecer a partir de agora, __data frame__.
+
+Por esta razão, em vez de aprender como fazer aritmética, elaborar funções ou executar loops para repetir tarefas e outros aspectos básicos da linguagem, neste  minicurso vamos colocar o R como um "software concorrente"" dos demais utilizados para análise de dados, em particular o MS. Excel e outros editores de planilha, os demais softwares estatísticos como SPSS, Stata e SAS, e a linguagem SQL.
+
+Se você entrar no [portal de dados abertos](http://dados.prefeitura.sp.gov.br/) da Prefeitura Municipal de São Paulo, sobretudo na [área de dados da educação](http://dados.prefeitura.sp.gov.br/group/educacao) verá que a maioria dos arquvios são __data frames__.
+
+As principais características de um data frame são: (1) cada coluna representa uma variável (ou característica) de um conjunto de observações; (2) cada linha representa uma observação e contém os valores de cada variável para tal observação. Vejamos um exemplo:
+
+| Candidato | Partido | Votos | 
+| --------- |:-------:| -----:|
+| Beatriz   | PMDB    |   350 | 
+| Danilo    | SOL     |  1598 | 
+| Pedro     | PTB     |   784 | 
+| Davi      | PSD     |   580 | 
+| Mateus    | PV      |   2   | 
+
+Se destacamos uma coluna do nosso data frame, temos um __vetor__. Por exemplo, a variável "Votos" pode ser presentado da seguinte maneira: {350, 1598, 784, 580, 2}. Um data frame é um conjunto de variáveis (vetores) dispostos na vertical e combinados um ao lado do outro.
+
+Data frame e vetores são __objetos__ na linguagem R.
+
+Vamos ver como o R representa vetores e data frames na tela. Antes disso, é preciso "abrir" um data frame.
+
+## Pausa para falar de pacotes
+
+Uma das características mais atrativas da linguagem R é o desenvolvimento de __pacotes__ pela comunidade de usuários. Pacotes são conjuntos de funções (aka comandos) e, por vezes, guardam também dados em diversos formatos.
+
+Neste minicurso utilizaremos dois dos pacotes mais populares da linguagem: _dplyr_ (para manipulação de data frames), _ggplot2_ (para gráficos), _readr_ (para abrir arquivos de dados) e _ggmap_ (mapas).
+
+A comunidade de R mantém um repositório online de pacotes a partir do qual você pode instalar diretamente com o seguinte comando:
+
+```{r}
+install.packages("dplyr")
+```
+
+Repita você mesm@ o comando para os demais pacotes.
+
+Uma vez instalados os pacotes no seu computador, você nunca mais precisará repetir o processo (a não ser para atualizar uma nova versão do pacote, se desejar). Ainda assim, sempre que abrir o R é preciso "chamar/carregar o pacote" para suas funções estejam disponíveis naquela sessão. Para carregar um pacote, utilizamos a função _library_:
+
+```{r}
+library(dplyr)
+```
+
+Excelente! Voltemos aos _data frames_
+
+## Fazendo download dos dados "sem clicar"
+
+Na linguagem R há diversas funções para obter dados da web (lá no final deste tutorial indicarei um curso que dei só sobre isso). A mais simples dela é _donwload.file_. Basta ter um url de uma base de dados e ter um nome para dar à base.
+
+Vamos começar "guardando" o endereço de uma base de dados em um url. Nosso exemplo será o [cadastro de escolas](http://dados.prefeitura.sp.gov.br/dataset/cadastro-de-escolas-municipais-conveniadas-e-privadas/resource/52b8a68b-ad4f-4f56-95ec-c2b0da052849) que encontramos no portal de dados abertos. Você verá que o portal fornece um URL da base. Vamos copiá-lo e guardá-lo no objeto que chamaremos de "url\_cadastro". Veja como:
+
+```{r}
+url_cadastro <- "http://dados.prefeitura.sp.gov.br/dataset/8da55b0e-b385-4b54-9296-d0000014ddd5/resource/8f37dbaf-dcbd-46cc-9e34-1b4802690485/download/escolasr34abril2017.csv"
+```
+
+No R, podemos guardar informações em objetos. No nosso exemplo, pense como se estivéssemos separando uma caixinha na memória do computador com a etiqueta "url\_cadastro" e guardando o URL dentro. Os objetos do R ficam no __workspace__ e você verá na janela "Enviroment" do RStudio consta o objeto "url\_cadastro".
+
+O símbolo "<-", que utilizaremos o tempo todo, é o símbolo de atribuição (por isso se parece com um seta). Estamos atribuindo uma informação -- URL, que está do lado direito -- ao objeto cujo nome escolhemos -- lado esquerdo. Se você tiver ficado com dúvidas neste ponto, não se preocupe. Logo você se abituará.
+
+Vamos, então, usar a função _download.file_ para baixar o arquivo que está no URL que "guardamos". Veja:
+
+```{r}
+download.file(url_cadastro, "base_cadastro.csv")
+```
+
+Há vários aspectos importantes da linguagem R que podemos entender com o exemplo acima.
+
+Em primeiro lugar, note que não utilizamos o símbolo de atribuição. Como não guardaremos nenhum objeto novo no R, não precisamos utilizar " <-". O arquivo irá direto para o diretório do seu computador em que você estiver trabalhando (você pode digitar "getwd()" para saber qual é o seu "working directory").
+
+Utilizamos depois do nome função um parênteses. Este parêtenses carrega os __argumentos__ (ou __parâmetros__) da função. A função _download.file_ precisa de ao menos dois parâmetros: o URL de onde faremos o download e o nome do arquivo que será salvo.
+
+Veja que utilizamos um objeto que estava na memória como primeiro parâmetro. Se quiséssemos, porém, poderíamos digitar o URL diretamente, entre aspas, no lugar de "url\_cadastro". É indiferente.
+
+Os parâmetros de uma função são separados por vírgulas, como no exemplo. O nome com o qual o arquivo será salvo deve ir entre aspas, pois não é um objeto do R, mas um texto. Objetos "chamados" não precisam de aspas. Observe também que o nome contém a extensão do arquivo (".csv", no caso).
+
+OBS: é possível que usuários de Windows precisem adicionar o parâmetro "mode = wb" (que trata da forma em que o arquivo é escrito na memória do computar). Basta incluir mais uma vírcula e o texto indicado antes de fechar o parênteses.
+
+## Abrindo arquivos
+
+Se você estiver utilizando o RStudio, um jeito simples de abrir o arquivo: basta clicar no botão "Import Dataset", escolher "From Text (readr)", pois o arquivo é um .csv ("comma separated values", ou seja, um arquivo de texto cujos valores das colunas separados por vírgula), "Browse", encontrar o arquivo e definir os parâmetros para abrí-lo. 
+
+Note que no caso do cadastro de escolas o símbolo que separa as colunas (delimitador, ou "delimiter", em inglês) é o ponto e vírgula. Espaço. tab, vírgula e ponto e vírgula são os separadores mais comumente utilizados.
+
+Além disso, a primeira linha do arquivo já contém os nomes das colunas. Os nomes dão uma ideia do conteúdo das variáveis, mas você pode explorar a definição de cada coluna lendo o [Dicionário de Dados](http://dados.prefeitura.sp.gov.br/dataset/cadastro-de-escolas-municipais-conveniadas-e-privadas/resource/52b8a68b-ad4f-4f56-95ec-c2b0da052849).
+
+Você pode escrever o comando de abertura de dados em vez de clicar no botão. Vamos utilizar uma função do pacote _readr_ e, antes de seguir, vamos carregá-lo:
+
+```{r}
+library(readr)
+```
+
+Vamos utilizar a função _read\_delim_ para abrirmos no R os dados. Note que agora queremos que o resultado da função (dados abertos) sejam atribuídos a um objeto ("cadastro"). Precisamos, então, do símbolo de atribuição "<-":
+
+```{r}
+cadastro <- read_delim(file = "base_cadastro.csv", delim = ";")
+```
+
+Veja que desta vez colocamos entre parênteses os nomes dos parâmetros ("file" e "delim") e o valor que receberiam após o símbolo de "=". Usar o nome dos parêmtros é opcional (desde que você saiba a ordem deles na função, como fizemos com "download.file").
+
+Vamos ver os dados que carregamos com a função _View_ (obs: com "V" maiúsculo, o que raramente acontece com funções em R):
+
+```{r}
+View(cadastro)
+```
+
+
+## Do editor de planilhas ao R
+
+A partir desse ponto no meetup vamos resistir à tentação de "olhar" para os dados. O hábito de quem utiliza com editores de planilha como MS Excel ou Libre Office, ou ainda com algums softwares de análise de dados como SPSS e Minitab, é trabalhar "olhando" para os dados, ou seja, para os valores de cada célula de uma base dados.
+
+Você perceberá em pouco tempo que isso não é necessário. Na verdade, é contraproducente. Vamos nos munir de ferramentas que nos permitirão conhecer os dados sem olhá-los diretamente.
+
+Por exemplo, podemos substituir a função _View_ pela função _head_. Veja o resultado:
+
+```{r}
+head(cadastro)
+```
+
+Com apenas as 6 primeiras linhas do _data frame_ temos noção de todo o conjunto. Sabemos rapidamente que os nomes dos carros são o nome de cada uma das linhas, e que o nome das colunas indicam qual característica está armazenada coluna (lembra-se da documentação de _cadastro_ que você acabou de ler).
+
+Alternativamente, podemos usar a função _str_ (atalho para "structure"):
+
+```{r}
+str(cadastro)
+```
+
+Com _str_ sabemos qual é a lista de variáveis (colunas) no _data frame_, de qual tipo são -- no caso, todas são numéricas e vamos falar sobre esse tema mais tarde -- e os primeiros valores de cada uma, além do número total de observações e variáveis mostrados no topo do __output__.
+
+Há outras maneiras de obter o número linhas e colunas de um _data frame_:
+
+```{r}
+nrow(cadastro)
+ncol(cadastro)
+dim(cadastro)
+```
+
+_nrow_ retorna o número de linhas; _ncol_, o de coluna; _dim_ as dimensões (na ordem linha e depois coluna) do objeto.
+
+_names_, por sua vez, retorna os nomes das variáveis do _data frame_
+
+```{r}
+names(cadastro)
+```
+
+
+## Pausa para um comentário
+
+Podemos fazer comentários no meio do código. Basta usar # e tudo que seguir até o final da linha não será interpertado pelo R como código. Por exemplo:
+
+```{r}
+# Imprime o nome das variaveis do data frame cadastro
+names(cadastro)
+
+names(cadastro) # Repetindo o comando acima com comentario em outro lugar
+```
+
+Comentários são extremamente úteis para documentar seu código. Documentar é parte de programar e você deve pensar nas pessoas com as quais vai compartilhar o código e no fato de que com certeza não se lembrará do que fez em pouco tempo (garanto, você vai esquecer).
+
+## Manipulado os dados do data frame
+
+Há diversas maneiras de manipulara data frames em R. A mais popular delas, e na minha opinião a mais fácil, é utilizar a "gramática" do "dplyr". Vamos começar carregando o pacote (se já não estiver carregado):
+
+```{r}
+library(dplyr)
+```
+
