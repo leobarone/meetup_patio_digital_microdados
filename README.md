@@ -12,7 +12,7 @@ Material do Meetup - Pátio Digital
 
 ## Materiais
 
-- [MQ-UFMG 2017](https://github.com/leobarone/mq_ufmg_17)
-- [FLS 6397 - Introdução à Programação e Ferramentas Computacionais para as Ciências Sociais](https://github.com/leobarone/FLS6397)
-- [Livro R for Data Science](http://r4ds.had.co.nz/)
-- [Introdução ao R - DataCamp](https://www.datacamp.com/courses/free-introduction-to-r)
+- [aqui](https://github.com/leobarone/mq_ufmg_17)
+- [aqui](https://github.com/leobarone/FLS6397)
+- [aqui](http://r4ds.had.co.nz/)
+- [aqui](https://www.datacamp.com/courses/free-introduction-to-r)
