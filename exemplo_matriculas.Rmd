@@ -140,3 +140,39 @@ ggplot(matriculas, aes(x = contagem)) +
 ```
 
 Novamente, não há tempo para explorar a gramática de gráficos do pacote _ggplot2_ na oficina, mas deixo indicado no repositório onde é possível aprender um pouco mais.
+
+## Fim
+
+Organizando o que fizemos em um único "bloco" de cógido:
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+url_matriculas <- "http://dados.prefeitura.sp.gov.br/dataset/66218af2-c669-49bc-842c-df8fcc6364ca/resource/a12a5380-cadf-41bf-bf6b-e8e39e1bc655/download/microdadoseolmatriculas2016.rar"
+download.file(url_matriculas, "matriculas16.rar")
+unzip("matriculas16.rar")
+
+matriculas <- read_delim(file = "Microdados_EOL_Matriculas_2016.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+matriculas <- rename(matriculas, tipo = TIPO_ESCOLA, turma = CD_TURMA, deficiencia = DEF_N_POSSUI)
+matriculas <- filter(matriculas, tipo == "EMEF")
+matriculas <- select(matriculas, turma, deficiencia)
+matriculas <- mutate(matriculas, deficiencia = (deficiencia - 1) * (-1))
+matriculas <- group_by(matriculas, turma) %>%  summarise(contagem = sum(deficiencia), total = n())
+matriculas <- summarise(matriculas, contagem = sum(deficiencia), total = n())
+
+sum(matriculas$contagem)
+sum(matriculas$contagem) * 100 / sum(matriculas$total)
+max(matriculas$contagem)
+
+
+ggplot(matriculas, aes(x = contagem)) +
+  geom_bar() + 
+  ggtitle("Número de alunos com deficiência por turma em EMEF (2016)") + 
+  xlab("Número de alunos com deficiência") + 
+  ylab("Número de turmas")
+
+
+```
