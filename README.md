@@ -8,7 +8,7 @@ O Encontro Aberto #06 do Pátio Digital é resultado da cooperação entre o [CE
 
 A expectativa é que a SME avance na transparência de suas bases de dados, oferecendo à sociedade civil e pesquisadores/pesquisadoras a possibilidade de construir, monitorar e avaliar conjuntamente a política municipal de educação.
 
-O objetivo do encontro é oferecer à comuniade interessada em dados de educação exemplos de como trabalhar com microdados da educação municipal paulistana utilizando um software livre.
+O objetivo do encontro é oferecer à comunidade interessada em dados de educação exemplos de como trabalhar com microdados da educação municipal paulistana utilizando um software livre.
 
 Este é o repositório do material do encontro. Aqui você encontrará os 3 tutorias que criamos com as bases de dados de educação disponibilizadas pela Prefeitura de São Paulo no [Portal de Dados Abertos](http://dados.prefeitura.sp.gov.br/) e dicas de onde seguir estudando a linguagem R.
 
