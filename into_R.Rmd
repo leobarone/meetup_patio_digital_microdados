@@ -85,7 +85,7 @@ Veja que utilizamos um objeto que estava na memória como primeiro parâmetro. S
 
 Os parâmetros de uma função são separados por vírgulas, como no exemplo. O nome com o qual o arquivo será salvo deve ir entre aspas, pois não é um objeto do R, mas um texto. Objetos "chamados" não precisam de aspas. Observe também que o nome contém a extensão do arquivo (".csv", no caso).
 
-OBS: é possível que usuários de Windows precisem adicionar o parâmetro "mode = wb" (que trata da forma em que o arquivo é escrito na memória do computar). Basta incluir mais uma vírcula e o texto indicado antes de fechar o parênteses.
+OBS: é possível que usuários de Windows precisem adicionar o parâmetro "mode = wb" (que trata da forma em que o arquivo é escrito na memória do computar). Basta incluir mais uma vírgula e o texto indicado antes de fechar o parênteses.
 
 ## Abrindo arquivos
 
@@ -312,7 +312,7 @@ ggmap(map_sp) +
   geom_point(aes(lon, lat), data = escolas)
 ```
 
-Vamos agora seguir agora para outros exemplos com dados da SME e aprender um pouco maissobre R.
+Vamos agora seguir agora para outros exemplos com dados da SME e aprender um pouco mais sobre R.
 
 
 

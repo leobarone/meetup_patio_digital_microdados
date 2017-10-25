@@ -9,9 +9,13 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<<<<<<< HEAD
 # Análise exploratória dos microdados de matrícula
 
 No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados deeducação do Portal de Dados Abertos da Prefeitura de São Paulo.
+=======
+No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados de educação do Portal de Dados Abertos da Prefeitura de São Paulo.
+>>>>>>> 250b70fe7888a8ede6d5a323b67662f4130c7d10
 
 Neste exemplo, vamos utilizar o que aprendemos para produzir uma análise gráfica a partir dos dados de matrículas dos alunos da rede municipal. No processo, aprenderemos mais algumas coisas e veremos que, de novo, pouco código produz muita informação.
 
@@ -34,7 +38,7 @@ download.file(url_matriculas, "matriculas16.rar")
 Note que agora não estamos lidando com um arquivo de texto, mas uma paste arquivos compactados no formato .rar. Precisamos clicar para abrir o arquivo? De forma alguma. Vamos utilizar a função _unzip_:
 
 ```{r}
-unzip("matriculas.rar")
+unzip("matriculas16.rar")
 ```
 
 E abrir os dados:
@@ -91,7 +95,7 @@ Em primeiro lugar, escolheremos por qual variável faremos o agrupamento, no cas
 matriculas <- group_by(matriculas, turma) %>%  summarise(contagem = sum(deficiencia), total = n())
 ```
 
-Imediatamente a seguir, faremos um "sumário" da variável "deficiencia". Como queremos contar o número de alun@s com deficiência em cada turma, o "sumário" deverá conter uma variável "contagem". Também será interessante contar quantos studanteso todo nas turmas, informação que guardaremosna variável "total":
+Imediatamente a seguir, faremos um "sumário" da variável "deficiencia". Como queremos contar o número de alun@s com deficiência em cada turma, o "sumário" deverá conter uma variável "contagem". Também será interessante contar quantos estudantes tem ao todo nas turmas, informação que guardaremos na variável "total":
 
 ```{r}
 matriculas <- summarise(matriculas, contagem = sum(deficiencia), total = n())
