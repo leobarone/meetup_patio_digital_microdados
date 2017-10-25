@@ -31,7 +31,7 @@ E fazer o download dos dados. OBS: pode demorar bastante. Procure o pessoal do P
 download.file(url_matriculas, "matriculas16.rar")
 ```
 
-Note que agora não estamos lidando com um arquivo de texto, mas uma paste arquivos compactados no formato .rar. Precisamos clicar para abrir o arquivo? De forma alguma. Vamos utilizar a função _unzip_:
+Note que agora não estamos lidando com um arquivo de texto, mas uma pasta de arquivos compactados no formato .rar. Precisamos clicar para abrir o arquivo? De forma alguma. Vamos utilizar a função _unzip_:
 
 ```{r}
 unzip("matriculas16.rar")
@@ -139,4 +139,4 @@ ggplot(matriculas, aes(x = contagem)) +
   ylab("Número de turmas")
 ```
 
-Novamente, não há tempo para explorar a gramática de gráficos do pacote _ggplot2_ na oficina, mas deixo indicado no repositório onde aprender um pouco mais.
+Novamente, não há tempo para explorar a gramática de gráficos do pacote _ggplot2_ na oficina, mas deixo indicado no repositório onde é possível aprender um pouco mais.

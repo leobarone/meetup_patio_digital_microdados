@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Análise exploratória dos microdados de servidores
 
-Neste terceiro exemplo, vamos explorar a base de dados recém-lançada pela SME no evento do pátio digital. Trata-se da base de dados de servidores em 2016. No momento do encontro a base ainda não estava online, então abriremos o arquivo passado via pen drive na oficina
+Neste terceiro exemplo, vamos explorar a base de dados recém-lançada pela SME no evento do pátio digital. Trata-se da base de dados de servidores em 2016. No momento do encontro, a base ainda não estava online, então abriremos o arquivo passado via pen drive na oficina.
 
 ```{r}
 library(readr)
@@ -19,7 +19,7 @@ library(readr)
 servidores <- read_delim(file = "PERFIL_SERVIDOR_2016_FINAL.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
 ```
 
-Vamos selecionar algumas variáveis para trabalhar: idade, cargo base, tipo de unidade em que trabalhar e escolaridade. Comecemos renomeando:
+Vamos selecionar algumas variáveis para trabalhar: idade, cargo base, tipo de unidade em que trabalha e escolaridade. Comecemos renomeando as variáveis:
 
 ```{r}
 servidores <- rename(servidores, idade = IDADE, cargo = DC_CARGO_BASE, tipo = TP_UNIDADE_BASE, escolaridade = NIVEL_FORM)
@@ -49,7 +49,7 @@ Podemos agora produzir uma tabela simples com a escolaridade do conjunto de dire
 table(servidores$escolaridade)
 ```
 
-Uma maneira mais interessante de olhar para o dado é observar as  proporções das categorias. Com a função _prop.table_ usada em conjunto com a função _table_ fazemos isso rapidamente.
+Uma maneira mais interessante de olhar para o dado é observar as proporções das categorias. Com a função _prop.table_ usada em conjunto com a função _table_ fazemos isso rapidamente.
 
 ```{r}
 prop.table(table(servidores$escolaridade))
