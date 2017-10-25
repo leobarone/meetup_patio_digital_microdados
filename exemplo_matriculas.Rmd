@@ -32,7 +32,7 @@ download.file(url_matriculas, "matriculas16.rar")
 Note que agora não estamos lidando com um arquivo de texto, mas uma paste arquivos compactados no formato .rar. Precisamos clicar para abrir o arquivo? De forma alguma. Vamos utilizar a função _unzip_:
 
 ```{r}
-unzip("matriculas.rar")
+unzip("matriculas16.rar")
 ```
 
 E abrir os dados:
