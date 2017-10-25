@@ -1,5 +1,5 @@
 ---
-title: "Básico da Linguagem e Data Frames"
+title: "Análise exploratória dos microdados de matrícula"
 author: "Leonardo Sangali Barone"
 date: "25 de Outubro de 2017"
 output: pdf_document

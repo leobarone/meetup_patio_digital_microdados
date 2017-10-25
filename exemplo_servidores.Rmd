@@ -1,0 +1,81 @@
+---
+title: "Análise exploratória dos microdados de servidores"
+author: "Leonardo Sangali Barone"
+date: "25 de Outubro de 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Análise exploratória dos microdados de servidores
+
+Neste terceiro exemplo, vamos explorar a base de dados recém-lançada pela SME no evento do pátio digital. Trata-se da base de dados de servidores em 2016. No momento do encontro a base ainda não estava online, então abriremos o arquivo passado via pen drive na oficina
+
+```{r}
+library(readr)
+
+servidores <- read_delim(file = "PERFIL_SERVIDOR_2016_FINAL.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+Vamos selecionar algumas variáveis para trabalhar: idade, cargo base, tipo de unidade em que trabalhar e escolaridade. Comecemos renomeando:
+
+```{r}
+servidores <- rename(servidores, idade = IDADE, cargo = DC_CARGO_BASE, tipo = TP_UNIDADE_BASE, escolaridade = NIVEL_FORM)
+```
+
+Não conhecemos bem as variáveis ainda. Podemos produzir tabelas simples para ver quais são as categorias, por exemplo, das variáveis de cargo e área de atuação. Cargo:
+
+```{r}
+table(servidores$cargo)
+```
+
+Outra maneira de conhecer as categorias é utilizar a função unique, que retorna os valore únicos de um vetor:
+
+```{r}
+unique(servidores$cargo)
+```
+
+Vamos trabalhar apenas com diretores de escola. Vamos "filtrar" a base:
+
+```{r}
+servidores <- filter(servidores, cargo == "DIRETOR DE ESCOLA")
+```
+
+Podemos agora produzir uma tabela simples com a escolaridade do conjunto de diretores:
+
+```{r}
+table(servidores$escolaridade)
+```
+
+Uma maneira mais interessante de olhar para o dado é observar as  proporções das categorias. Com a função _prop.table_ usada em conjunto com a função _table_ fazemos isso rapidamente.
+
+```{r}
+prop.table(table(servidores$escolaridade))
+```
+
+Para terminar este exemplo rápido, vamos cruzar a escolaridade dos diretores com os tipos de unidade:
+
+```{r}
+table(servidores$escolaridade, servidores$tipo)
+```
+
+Para simplificar a tabela, vamos manter apenas os grupos de unidades mais comuns: EMEF, EMEI E CEI Direto. Usaremos um novo filtro:
+
+```{r}
+servidores <- filter(servidores, tipo == "EMEF" | tipo == "EMEI" | tipo == "CEI DIRET")
+```
+
+Refazendo a tabela:
+
+```{r}
+table(servidores$escolaridade, servidores$tipo)
+```
+
+Usando novamente _prop.table_, mas com a opção de calcular as proporções apenas nas colunas:
+
+```{r}
+prop.table(table(servidores$escolaridade, servidores$tipo), margin = 2)
+```
+
