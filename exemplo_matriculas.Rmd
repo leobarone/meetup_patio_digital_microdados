@@ -9,6 +9,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Análise exploratória dos microdados de matrícula
+
 No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados deeducação do Portal de Dados Abertos da Prefeitura de São Paulo.
 
 Neste exemplo, vamos utilizar o que aprendemos para produzir uma análise gráfica a partir dos dados de matrículas dos alunos da rede municipal. No processo, aprenderemos mais algumas coisas e veremos que, de novo, pouco código produz muita informação.
@@ -38,19 +40,20 @@ unzip("matriculas.rar")
 E abrir os dados:
 
 ```{r}
-matriculas <- read_delim(file = "Microdados_EOL_Matriculas_2016.csv", delim = ";")
+library(readr)
+
+matriculas <- read_delim(file = "Microdados_EOL_Matriculas_2016.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
 ```
 
 ## Estudantes com deficiência por turma nas EMEFs da rede municipal
 
-Nosso objetivo será contar o número de estudantes com deficiência por turma nas EMEFs da rede municipal. Construíremos um gráfico de barras a partir da contagem.
+Nosso objetivo será contar o número de estudantes com deficiência por turma nas EMEFs da rede municipal e apresentar graficamente o resultado.
 
 Precisaremos do pacote _dplyr_ e convém já carregá-lo:
 
 ```{r}
 library(dplyr)
 ```
-
 
 Em primeiro lugar, precisamos identificar as variáveis que nos interessam. Podemos fazer isso recorrendo ao [dicionário](http://dados.prefeitura.sp.gov.br/dataset/microdados-da-rede-municipal-de-ensino-matriculas/resource/a59b705b-febc-4968-b406-360d4a163747?inner_span=True) (eu sugiro que você leia o dicionário se tiver tempo).
 
@@ -65,7 +68,7 @@ matriculas <- rename(matriculas, tipo = TIPO_ESCOLA, turma = CD_TURMA, deficienc
 A seguir, "filtraremos" os dados selecionando apenas as linhas referentes a matrículas em EMEFs:
 
 ```{r}
-matriculas <- mutate(matriculas, tipo == "EMEF")
+matriculas <- filter(matriculas, tipo == "EMEF")
 ```
 
 Como a partir de agora precisaremos apenas das variáveis "turma" e "deficiencia", podemos excluir as demais usando a função _select_:
@@ -85,7 +88,7 @@ Pronto! Temos agora no data frame só 2 variáveis e recodificamos a variável "
 Em primeiro lugar, escolheremos por qual variável faremos o agrupamento, no caso, "turma":
 
 ```{r}
-matriculas <- group_by(matriculas, turma)
+matriculas <- group_by(matriculas, turma) %>%  summarise(contagem = sum(deficiencia), total = n())
 ```
 
 Imediatamente a seguir, faremos um "sumário" da variável "deficiencia". Como queremos contar o número de alun@s com deficiência em cada turma, o "sumário" deverá conter uma variável "contagem". Também será interessante contar quantos studanteso todo nas turmas, informação que guardaremosna variável "total":
@@ -100,3 +103,40 @@ O que aconteceu? Transformamos um data frame que tinha uma matrícula em cada li
 head(matriculas)
 ```
 
+# Análise exploratória básica com dados de matrículas
+
+Vamos fazer uma análise simples dos dados que construímos a partir da base de matrículas.
+
+Quantos alunos com deficiência há na rede?
+
+```{r}
+sum(matriculas$contagem)
+```
+
+Observe o uso do símbolo "$". Ele indica que estamos selecionando uma variável específica ("contagem" no data frame "matriculas" para usar de parâmetro na função _sum_ (função de soma de uma coluna).
+
+Qual é o percentual de alunos com deficiência sobre o total de alunos em EMEFs da rede municipal?
+
+```{r}
+sum(matriculas$contagem) * 100 / sum(matriculas$total)
+```
+
+Qual é o máximo de alunos com deficiência em uma turma?
+
+```{r}
+max(matriculas$contagem)
+```
+
+Vamos observar graficamente a distribuição de número de alunos com deficiência por turmas:
+
+```{r}
+library(ggplot2)
+
+ggplot(matriculas, aes(x = contagem)) +
+  geom_bar() + 
+  ggtitle("Número de alunos com deficiência por turma em EMEF (2016)") + 
+  xlab("Número de alunos com deficiência") + 
+  ylab("Número de turmas")
+```
+
+Novamente, não há tempo para explorar a gramática de gráficos do pacote _ggplot2_ na oficina, mas deixo indicado no repositório onde aprender um pouco mais.
