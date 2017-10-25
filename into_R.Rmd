@@ -101,10 +101,10 @@ Você pode escrever o comando de abertura de dados em vez de clicar no botão. V
 library(readr)
 ```
 
-Vamos utilizar a função _read\_delim_ para abrirmos no R os dados. Note que agora queremos que o resultado da função (dados abertos) sejam atribuídos a um objeto ("cadastro"). Precisamos, então, do símbolo de atribuição "<-":
+Vamos utilizar a função _read\_delim_ para abrirmos no R os dados. Note que agora queremos que o resultado da função (dados abertos) sejam atribuídos a um objeto ("escolas"). Precisamos, então, do símbolo de atribuição "<-":
 
 ```{r}
-cadastro <- read_delim(file = "base_cadastro.csv", delim = ";")
+escolas <- read_delim(file = "base_cadastro.csv", delim = ";")
 ```
 
 Veja que desta vez colocamos entre parênteses os nomes dos parâmetros ("file" e "delim") e o valor que receberiam após o símbolo de "=". Usar o nome dos parêmtros é opcional (desde que você saiba a ordem deles na função, como fizemos com "download.file").
@@ -112,7 +112,7 @@ Veja que desta vez colocamos entre parênteses os nomes dos parâmetros ("file" 
 Vamos ver os dados que carregamos com a função _View_ (obs: com "V" maiúsculo, o que raramente acontece com funções em R):
 
 ```{r}
-View(cadastro)
+View(escolas)
 ```
 
 
@@ -125,15 +125,13 @@ Você perceberá em pouco tempo que isso não é necessário. Na verdade, é con
 Por exemplo, podemos substituir a função _View_ pela função _head_. Veja o resultado:
 
 ```{r}
-head(cadastro)
+head(escolas)
 ```
 
-Com apenas as 6 primeiras linhas do _data frame_ temos noção de todo o conjunto. Sabemos rapidamente que os nomes dos carros são o nome de cada uma das linhas, e que o nome das colunas indicam qual característica está armazenada coluna (lembra-se da documentação de _cadastro_ que você acabou de ler).
-
-Alternativamente, podemos usar a função _str_ (atalho para "structure"):
+Com apenas as 6 primeiras linhas do _data frame_ temos noção do conjunto. Alternativamente, podemos usar a função _str_ (atalho para "structure"):
 
 ```{r}
-str(cadastro)
+str(escolas)
 ```
 
 Com _str_ sabemos qual é a lista de variáveis (colunas) no _data frame_, de qual tipo são -- no caso, todas são numéricas e vamos falar sobre esse tema mais tarde -- e os primeiros valores de cada uma, além do número total de observações e variáveis mostrados no topo do __output__.
@@ -141,9 +139,9 @@ Com _str_ sabemos qual é a lista de variáveis (colunas) no _data frame_, de qu
 Há outras maneiras de obter o número linhas e colunas de um _data frame_:
 
 ```{r}
-nrow(cadastro)
-ncol(cadastro)
-dim(cadastro)
+nrow(escolas)
+ncol(escolas)
+dim(escolas)
 ```
 
 _nrow_ retorna o número de linhas; _ncol_, o de coluna; _dim_ as dimensões (na ordem linha e depois coluna) do objeto.
@@ -151,28 +149,174 @@ _nrow_ retorna o número de linhas; _ncol_, o de coluna; _dim_ as dimensões (na
 _names_, por sua vez, retorna os nomes das variáveis do _data frame_
 
 ```{r}
-names(cadastro)
+names(escolas)
 ```
-
 
 ## Pausa para um comentário
 
 Podemos fazer comentários no meio do código. Basta usar # e tudo que seguir até o final da linha não será interpertado pelo R como código. Por exemplo:
 
 ```{r}
-# Imprime o nome das variaveis do data frame cadastro
-names(cadastro)
+# Imprime o nome das variaveis do data frame escolas
+names(escolas)
 
-names(cadastro) # Repetindo o comando acima com comentario em outro lugar
+names(escolas) # Repetindo o comando acima com comentario em outro lugar
 ```
 
 Comentários são extremamente úteis para documentar seu código. Documentar é parte de programar e você deve pensar nas pessoas com as quais vai compartilhar o código e no fato de que com certeza não se lembrará do que fez em pouco tempo (garanto, você vai esquecer).
 
-## Manipulado os dados do data frame
+## Manipulando data frames
 
-Há diversas maneiras de manipulara data frames em R. A mais popular delas, e na minha opinião a mais fácil, é utilizar a "gramática" do "dplyr". Vamos começar carregando o pacote (se já não estiver carregado):
+Há diversas maneiras de manipular data frames em R. A mais popular delas, e na minha opinião a mais fácil, é utilizar a "gramática" do "dplyr". Vamos começar carregando o pacote (se já não estiver carregado):
 
 ```{r}
 library(dplyr)
 ```
+
+A gramática do _dplyr_ tem "verbos" bastante fáceis de utilizarmos. No nosso exemplo faremos um mapa com todas as EMEIs de São Paulo. Então, começaremos separando as informações (ou melhor, as colunas) que precisamos dentre as 53 do cadastro de escolas.
+
+Para um mapa confecionar um mapa precisaremos apenas de latitude e longitude (colunas LATITUDE e LONGITUDE). Como vamos precisar selecionar apenas as EMEIs, precisamos da variável que descrever o tipo da unidade escolar (TIPOESC).
+
+O primeiro verdo do _dplyr_ que utilizaremos sera o _rename_, para renomear as variáveis. Vamos dar nomes "bonitos" às 3 variáveis. è bastante simples.
+
+```{r}
+escolas <- rename(escolas, lat = LATITUDE, lon = LONGITUDE, tipo = TIPOESC)
+```
+
+Questão: como saber os nomes das variáveis originais? Consultando o [Dicionário de Dados](http://dados.prefeitura.sp.gov.br/dataset/cadastro-de-escolas-municipais-conveniadas-e-privadas/resource/52b8a68b-ad4f-4f56-95ec-c2b0da052849). 
+
+Veja que estamos atribuindo o resultado da renomeação ao objeto "escolas", que já existe. Porque? Por que queremos que o data frame resultante da aplicação da função _rename_ sobrescreva o data frame que já existe. Em outras palavras, não é um problema atribuir algo a um objeto já existente. Basta lembrar que haverá uma substituição.
+
+O primeiro argumento da função _rename_ é o próprio data frame que será transformado. Na sequência, separando por vírgula, damos nomes novos às variáveis existentes.
+
+Simples, não?
+
+Vamos agora liberar a memória do computador e selecionar apenas as 3 variáveis -- e jogar fora todo o resto. Faremos isso com o verbo _select_:
+
+```{r}
+escolas <- select(escolas, lat, lon, tipo)
+```
+
+Utilizando a função _head_, vemos que só temos 3 variáveis no data frame agora:
+
+```{r}
+head(escolas)
+```
+
+A função _select_, faz, portanto uma seleção de colunas.
+
+E se quisermos transformar o conteúdo de uma coluna? No nosso caso, o formato dos valores de latitude e longitude estão em formato diferente do convenional. Latitudes são representadas por números entre -90 e 90, com 8 casas decimais, e Longitudes por números entre -180 e 180, também com 8 casas decimais. Em nosso par de variáveis, o separador de decimal está omitido e por esta razão faremos esta pequena modificação na variável (divindo por 1 milhão).
+
+A função (verbo) para modificar variáveis do pacote _dplyr_ é mutate. Vamos ver como utilizá-la:
+
+```{r}
+escolas <- mutate(escolas, lat = lat / 1000000, lon = lon / 1000000)
+```
+
+Novamente, o primeiro argumento é o data frame e, separadas por vígulas, colocamos as transformações das variáveis que nos interessam. As operações matemáticas no R lembram as de uma calculadora (+, -, * e /, além de outras mais complicadas).
+
+Tal como _select_, _mutate_ promove modificações nas colunas.
+
+No cadastro de escolas temos todos os tipos de unidades: CEI, EMEI, EMEF, EJA, CEU, etc. Precisamos, agora, de uma função que faça a seleção de linhas para excluirmos todas as unidades que não sejam EMEI. O verbo do _dplyr_ para seleção de linha é _filter_. Veja seu uso:
+
+```{r}
+escolas <- filter(escolas, tipo == "EMEI")
+```
+
+O uso é semelhante ao dos demais verbos. Note, porém, que utilizamos dois símbolos de "igual". Sempre que nosso objetivo for comparar valores (exemplo: tipo de escola igual a EMEI; número de alunos menor ou igual a 1000, etc) utilizamos operadores relacionais.
+
+## Pausa operadores relacionais
+
+Uma das especialidades do computador é verificar se proposições simples são verdadeiras ou falsas. __Operadores relacionais__ servem para verificar se objetos são iguais, diferentes, maiores ou menores. São seis operadores relacionais e a tabela abaixo apresenta os seus símbolos.
+
+| Operador       | Símbolo |
+| -------------- |:-------:| 
+| Igual          | ==      |
+| Diferente      | !=      |
+| Maior          | >       |
+| Maior ou igual | >=      |
+| Menor          | <       |
+| Menor ou igual | <=      |
+
+## Produzindo mapas no R
+
+Temos, agora, um data frame que contém apenas EMEIs e a informação de latitude e longitude de cada uma. Conseguimos "reduzir" os dados usando quatro "verbos" (funções) fundamentais de manipulação de dados: _rename_, _select_, _mutate_ e _filter_.
+
+Vamos à produção do mapa. Precisaremos do pacote _ggmap_, que "importa" mapas de rua de serviços da web (Google e Open Street Maps, por exemplo) e permite a combinação dos mapas com os pontos (escolas, a partir da latitude e longitude).
+
+```{r}
+library(ggmap)
+```
+
+Para importar um mapa, precisamos de um ponto -- ou seja, um par latitude e longitude -- que será o "centro" do mapa. Para simplificar, utilizaremos a Praça da Sé como referência. Vamos criar um vetor (com a função _c_) que tem um par de valores de nomes "lon" e "lat" referentes à localização da praça:
+
+```{r}
+se <- c(lon = -46.6362714, lat = -23.5500806)
+```
+
+A seguir, vamos importar o mapa utilizando a função _get\_map_. Vamos fazer um mapa focando no centro e por isso escolheremos o "zoom" igual a 12. Quanto maior o zoom, mais focado será o mapa. A API utilizada será a do Google -- padrão da função -- caso não informemos alguma API diferente:
+
+```{r}
+map_sp <- get_map(se, zoom = 12)
+```
+
+Podemos plotar o mapa que baixamos com a função _plot_:
+
+```{r}
+plot(map_sp)
+```
+
+Mas ainda não é isso que queremos. Precisamos sobrepor ao mapa que baixamos os pontos correspondentes a cada uma das EMEIs. Veja como:
+
+```{r}
+ggmap(map_sp) +
+  geom_point(aes(lon, lat), data = escolas)
+```
+
+Lindo, não?
+
+O código acima tem uma estrutura bastante diferente do que havíamos visto. Ele é parte de outra "gramática" do R, a "grammar o graphics" do pacote _ggplot2_. Precisaríamos de bastante mais tempo para aprendê-la, mas vamos tentar destrinchar o código do mapa acima.
+
+Começamos plotando o mapa de São Paulo obtido na API do Google com a função _ggmap_. Ela criará a primeira camada do mapa e "organizará" o sistema de coordenadas. Com _geom\_point_, adicionaremos pontos ao mapa. Os pontos vem do data frame "escolas" -- por isso "data = escolas" -- e a informação utilizada, "lat" e "lon", faz parte da "aesthetics" do mapa -- por isso dentro do parênteses "aes".
+
+Se você quiser aprender um pouco mais sobre mapas no R (e fazer mapas mais bonitos) pode fazer o tutorial do meu [curso no DCP-USP](https://github.com/leobarone/FLS6397/blob/master/tutorials/tutorial8.Rmd).
+
+## Fim
+
+Espero que com este tutorial você tenha se familiarizado com a linguagem R e compreendido como utilizá-la trabalhar com os dados abertos da educação municipal. Organizando o que fizemos em um único "bloco" de cógido, vemos que é preciso pouco código para fazer algo relevante:
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggmap)
+
+url_cadastro <- "http://dados.prefeitura.sp.gov.br/dataset/8da55b0e-b385-4b54-9296-d0000014ddd5/resource/8f37dbaf-dcbd-46cc-9e34-1b4802690485/download/escolasr34abril2017.csv"
+
+download.file(url_cadastro, "base_cadastro.csv")
+
+escolas <- read_delim(file = "base_cadastro.csv", delim = ";")
+
+escolas <- rename(escolas, lat = LATITUDE, lon = LONGITUDE, tipo = TIPOESC)
+
+escolas <- select(escolas, lat, lon, tipo)
+
+escolas <- mutate(escolas, lat = lat / 1000000, lon = lon / 1000000)
+
+escolas <- filter(escolas, tipo == "EMEI")
+
+se <- c(lon = -46.6362714, lat = -23.5500806)
+
+map_sp <- get_map(se, zoom = 12)
+
+ggmap(map_sp) +
+  geom_point(aes(lon, lat), data = escolas)
+```
+
+Vamos agora seguir agora para outros exemplos com dados da SME e aprender um pouco maissobre R.
+
+
+
+
+
+
 
