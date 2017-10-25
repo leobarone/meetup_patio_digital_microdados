@@ -9,13 +9,9 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<<<<<<< HEAD
 # Análise exploratória dos microdados de matrícula
 
-No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados deeducação do Portal de Dados Abertos da Prefeitura de São Paulo.
-=======
 No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados de educação do Portal de Dados Abertos da Prefeitura de São Paulo.
->>>>>>> 250b70fe7888a8ede6d5a323b67662f4130c7d10
 
 Neste exemplo, vamos utilizar o que aprendemos para produzir uma análise gráfica a partir dos dados de matrículas dos alunos da rede municipal. No processo, aprenderemos mais algumas coisas e veremos que, de novo, pouco código produz muita informação.
 
