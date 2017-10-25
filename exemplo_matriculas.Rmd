@@ -9,7 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados deeducação do Portal de Dados Abertos da Prefeitura de São Paulo.
+No exemplo anterior passamos rapidamente por uma quantidade grande de funções e características da linguagem R e produzimos um exemplo simples a partir de dados de educação do Portal de Dados Abertos da Prefeitura de São Paulo.
 
 Neste exemplo, vamos utilizar o que aprendemos para produzir uma análise gráfica a partir dos dados de matrículas dos alunos da rede municipal. No processo, aprenderemos mais algumas coisas e veremos que, de novo, pouco código produz muita informação.
 
@@ -88,7 +88,7 @@ Em primeiro lugar, escolheremos por qual variável faremos o agrupamento, no cas
 matriculas <- group_by(matriculas, turma)
 ```
 
-Imediatamente a seguir, faremos um "sumário" da variável "deficiencia". Como queremos contar o número de alun@s com deficiência em cada turma, o "sumário" deverá conter uma variável "contagem". Também será interessante contar quantos studanteso todo nas turmas, informação que guardaremosna variável "total":
+Imediatamente a seguir, faremos um "sumário" da variável "deficiencia". Como queremos contar o número de alun@s com deficiência em cada turma, o "sumário" deverá conter uma variável "contagem". Também será interessante contar quantos studanteso todo nas turmas, informação que guardaremos na variável "total":
 
 ```{r}
 matriculas <- summarise(matriculas, contagem = sum(deficiencia), total = n())
