@@ -88,7 +88,7 @@ Pronto! Temos agora no data frame só 2 variáveis e recodificamos a variável "
 Em primeiro lugar, escolheremos por qual variável faremos o agrupamento, no caso, "turma":
 
 ```{r}
-matriculas <- group_by(matriculas, turma) %>%  summarise(contagem = sum(deficiencia), total = n())
+matriculas <- group_by(matriculas, turma)
 ```
 
 Imediatamente a seguir, faremos um "sumário" da variável "deficiencia". Como queremos contar o número de alun@s com deficiência em cada turma, o "sumário" deverá conter uma variável "contagem". Também será interessante contar quantos estudantes tem ao todo nas turmas, informação que guardaremos na variável "total":
@@ -160,7 +160,7 @@ matriculas <- rename(matriculas, tipo = TIPO_ESCOLA, turma = CD_TURMA, deficienc
 matriculas <- filter(matriculas, tipo == "EMEF")
 matriculas <- select(matriculas, turma, deficiencia)
 matriculas <- mutate(matriculas, deficiencia = (deficiencia - 1) * (-1))
-matriculas <- group_by(matriculas, turma) %>%  summarise(contagem = sum(deficiencia), total = n())
+matriculas <- group_by(matriculas, turma)
 matriculas <- summarise(matriculas, contagem = sum(deficiencia), total = n())
 
 sum(matriculas$contagem)

@@ -2,7 +2,7 @@
 
 Bem vind@s ao Encontro Aberto #06 do Pátio Digital!
 
-Autoria: Leonardo Sangali Barone, Alexia Aslan e Ana Carolina Silva Andrada
+Autoria: Leonardo Sangali Barone [leobarone@gmail.com](leobarone@gmail.com), Alexia Aslan [alexia.aslan@gmail.com](alexia.aslan@gmail.com) e Ana Carolina Silva Andrada [caandrada@gmail.com](caandrada@gmail.com)
 
 O Encontro Aberto #06 do Pátio Digital é resultado da cooperação entre o [CEBRAP](http://cebrap.org.br/) (Centro Brasileiro de Análise e Planejamento) e da Secretaria Municipal de Educação para a construção de uma política de dados abertos da educação municipal.
 
