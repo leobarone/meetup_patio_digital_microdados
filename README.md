@@ -14,9 +14,9 @@ Nos tutoriais você aprenderá ao mesmo tempo aspectos básicos da linguagem e a
 
 ## Local e data
 
-__Endereço__: Casa do Pátio Digital - SME. R. Buri, 35, Pacaembu.
-__Data e Hora__: 25 de Outubro de 2017, a partir das 19h.
-__Link do evento no Meetup__: [aqui](https://www.meetup.com/pt-BR/Encontros-abertos-SME/events/244353216/)
+* __Endereço__: Casa do Pátio Digital - SME. R. Buri, 35, Pacaembu.
+* __Data e Hora__: 25 de Outubro de 2017, a partir das 19h.
+* __Link do evento no Meetup__: [aqui](https://www.meetup.com/pt-BR/Encontros-abertos-SME/events/244353216/)
 
 ## Autoria 
 * Leonardo Sangali Barone - [leobarone@gmail.com](leobarone@gmail.com) - pai, pós-doutorando no DCP-USP e pesquisador do CEBRAP
