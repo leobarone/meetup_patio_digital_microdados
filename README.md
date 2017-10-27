@@ -12,10 +12,16 @@ Este é o repositório do material do encontro. Aqui você encontrará os 3 tuto
 
 Nos tutoriais você aprenderá ao mesmo tempo aspectos básicos da linguagem e a trabalhar com dados de cadastro de escolas, matrículas e servidores.
 
-Autoria: 
-* Leonardo Sangali Barone - [leobarone@gmail.com](leobarone@gmail.com)
-* Alexia Aslan - [alexia.aslan@gmail.com](alexia.aslan@gmail.com) e 
-* Ana Carolina Silva Andrada - [caandrada@gmail.com](caandrada@gmail.com)
+## Local e data
+
+__Endereço__: Casa do Pátio Digital - SME. R. Buri, 35, Pacaembu.
+__Data e Hora__: 25 de Outubro de 2017, a partir das 19h.
+__Link do evento no Meetup__: [aqui](https://www.meetup.com/pt-BR/Encontros-abertos-SME/events/244353216/)
+
+## Autoria 
+* Leonardo Sangali Barone - [leobarone@gmail.com](leobarone@gmail.com) - pai, pós-doutorando no DCP-USP e pesquisador do CEBRAP
+* Alexia Aslan - [alexia.aslan@gmail.com](alexia.aslan@gmail.com) - programadora, graduanda em ciências sociais na USP e pesquisadora do NECI-USP
+* Ana Carolina Silva Andrada - [caandrada@gmail.com](caandrada@gmail.com) - mãe, doutoranda em sociologia no DS-USP e pesquisadora do CEBRAP
 
 ## Pré-requisitos
 
@@ -28,7 +34,6 @@ No primeiro tutorial utilizaremos o [cadastro de escolas](http://dados.prefeitur
 No segundo tutorial, faremos um exemplo simples sobre utilizando uma base bastante importante do portal da prefeitura: o registro de matrículas. Analisaremos graficamente o número de alunos com deficiência por turmas em EMEFs. Clique [aqui](https://github.com/leobarone/meetup_patio_digital_microdados/blob/master/exemplo_matriculas.Rmd)
 
 Nosso último exemplo utilizará a base de dados apresentada pelo Pátio Digital: o cadastro de servidores. Faremos tabelas simples para cruzar escolaridade dos diretores de escola com tipo de unidade (CEI, EMEI ou EMEF). Clique [aqui](https://github.com/leobarone/meetup_patio_digital_microdados/blob/master/exemplo_servidores.Rmd)
-
 
 ## Onde seguir estudando R sozinh@?
 
